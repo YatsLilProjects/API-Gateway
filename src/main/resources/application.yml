@@ -1,0 +1,37 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: CUSTOMER-SERVICE
+          uri: lb://CUSTOMER-SERVICE
+          predicates:
+            - Path=/customer-service/food-delivery/**
+
+        - id: RESTAURANT-SERVICE
+          uri: lb://RESTAURANT-SERVICE
+          predicates:
+            - Path=/restaurant-service/food-delivery/**
+
+        - id: RATING-SERVICE
+          uri: lb://RATING-SERVICE
+          predicates:
+            - Path=/rating-service/food-delivery/**
+  config:
+    import: configserver:http://localhost:8085
+
+
+okta:
+  oauth2:
+    issuer: https://dev-96813037.okta.com/oauth2/default
+    audience: api://default
+    client-id: 0oadast9m8FgXVmRI5d7
+    client-secret: T5l-NrJi7fUv4ClDDAwPVgdCWaWVC2Ppjfkc8xRmXJ_dXFvcm5HHuWtRl-PpNOn7
+    scopes: openid,profile,email,offline_access
+
+
+
